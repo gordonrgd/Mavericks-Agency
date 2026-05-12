@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 import {
   ArrowLeft,
   CheckCircle,
@@ -124,10 +125,10 @@ export default function ApplyPage() {
           typeof data.error === "string" && data.error.length > 0
             ? data.error
             : `${t("apply.error.message")} (${res.status})`
-        alert(detail)
+        toast.error(detail)
       }
     } catch {
-      alert(t("apply.error.message"))
+      toast.error(t("apply.error.message"))
     } finally {
       setIsLoading(false)
     }

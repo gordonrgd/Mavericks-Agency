@@ -2,6 +2,7 @@
 
 import type React from "react"
 import { useState } from "react"
+import { toast } from "sonner"
 import AnimatedSection from "@/components/animated-section"
 import { Mail, Clock, Send } from "lucide-react"
 import { useLanguage } from "@/contexts/language-context"
@@ -29,12 +30,21 @@ export default function ContactPage() {
       })
       if (res.ok) {
         setFormData({ name: '', email: '', message: '' })
-        alert(t("contact.form.success"))
+        toast.success(t("contact.form.success"))
       } else {
-        alert(t("contact.form.error"))
+        let msg = t("contact.form.error")
+        try {
+          const errBody = (await res.json()) as { error?: string }
+          if (typeof errBody.error === "string" && errBody.error.length > 0) {
+            msg = errBody.error
+          }
+        } catch {
+          /* keep default */
+        }
+        toast.error(msg)
       }
     } catch {
-      alert(t("contact.form.error"))
+      toast.error(t("contact.form.error"))
     }
   }
 

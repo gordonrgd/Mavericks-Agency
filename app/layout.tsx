@@ -3,6 +3,7 @@
 import type React from "react"
 import localFont from "next/font/local"
 import "./globals.css"
+import { Toaster } from "sonner"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { LanguageProvider } from "@/contexts/language-context"
@@ -96,6 +97,7 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
+          <Toaster richColors position="top-center" />
         </LanguageProvider>
       </body>
     </html>
