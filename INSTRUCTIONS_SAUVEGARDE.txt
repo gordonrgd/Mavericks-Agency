@@ -1,0 +1,90 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                   INSTRUCTIONS DE SAUVEGARDE                                 ║
+║                   Mavericks Agency - Projet                                  ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📋 ÉTAPES AVANT DE RÉINITIALISER VOTRE MAC
+═══════════════════════════════════════════════════════════════════════════════
+
+1️⃣  SAUVEGARDER LE PROJET COMPLET
+   ──────────────────────────────────
+   📁 Copier le dossier complet :
+      /Users/gordon/Documents/Projets/MA_last/Mavericks-Agency
+   
+   📦 Vers un disque externe OU cloud (Dropbox, iCloud, Google Drive, etc.)
+   
+   ✅ Vérifier que tous les fichiers sont copiés (images, fonts, etc.)
+
+2️⃣  SAUVEGARDER LE FICHIER .env.local (CRITIQUE !)
+   ─────────────────────────────────────────────────
+   ⚠️  Ce fichier contient vos credentials SMTP
+   
+   📄 Localisation : /Users/gordon/Documents/Projets/MA_last/Mavericks-Agency/.env.local
+   
+   💾 Sauvegarder dans un endroit sécurisé :
+      - Gestionnaire de mots de passe (1Password, LastPass, etc.)
+      - Document texte chiffré
+      - Note sécurisée
+   
+   ✅ Ne JAMAIS committer ce fichier sur Git
+
+3️⃣  NOTER VOS CREDENTIALS SMTP
+   ──────────────────────────────
+   📧 Provider : IONOS (smtp.ionos.fr)
+   
+   Noter séparément :
+   - SMTP_USER = ?
+   - SMTP_PASSWORD = ?
+   - SMTP_FROM = ?
+   - SMTP_TO = ?
+
+4️⃣  (OPTIONNEL) SAUVEGARDER LES DONNÉES SUPABASE
+   ────────────────────────────────────────────────
+   Si vous utilisez Supabase et avez des données :
+   - Aller sur https://supabase.com
+   - Exporter les tables en CSV ou SQL
+   - Sauvegarder les exports
+
+5️⃣  VÉRIFIER QUE TOUT EST PRÊT
+   ──────────────────────────────
+   ✅ Dossier du projet copié
+   ✅ Fichier .env.local sauvegardé séparément
+   ✅ Credentials SMTP notés
+   ✅ (Optionnel) Données Supabase exportées
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🔄 APRÈS RÉINITIALISATION DE VOTRE MAC
+═══════════════════════════════════════════════════════════════════════════════
+
+📖 SUIVRE LE GUIDE : RESTORATION_GUIDE.md
+
+Étapes rapides :
+1. Installer Node.js (v18+)
+2. Copier le projet sur la nouvelle machine
+3. Créer .env.local avec vos credentials
+4. npm install
+5. npm run dev
+
+═══════════════════════════════════════════════════════════════════════════════
+
+📚 DOCUMENTATION CRÉÉE POUR VOUS
+═══════════════════════════════════════════════════════════════════════════════
+
+✅ RESTORATION_GUIDE.md      → Guide complet de réinstallation
+✅ CHECKLIST_SAUVEGARDE.md   → Checklist avant réinitialisation
+✅ VERSIONS_ET_CONFIG.md     → Versions et configurations
+✅ .env.example              → Template des variables d'environnement
+
+═══════════════════════════════════════════════════════════════════════════════
+
+⚠️  RAPPELS IMPORTANTS
+═══════════════════════════════════════════════════════════════════════════════
+
+🔐 Ne JAMAIS committer .env.local sur Git
+📧 Garder les credentials SMTP dans un endroit sécurisé
+💾 Sauvegarder le projet COMPLET (incluant public/fonts et public/images)
+🔍 Vérifier que le build fonctionne avant de sauvegarder
+
+═══════════════════════════════════════════════════════════════════════════════
+
