@@ -5,7 +5,7 @@ import AnimatedSection from "@/components/animated-section"
 import { useLanguage } from "@/contexts/language-context"
 import { translations } from "@/lib/translations"
 import { getBlogSummaries } from "@/lib/blog-articles"
-import { FileText, BookOpen, ArrowRight, ListChecks } from "lucide-react"
+import { BookOpen, ArrowRight, ListChecks } from "lucide-react"
 
 export default function ResourcesPage() {
   const { language } = useLanguage()
@@ -63,46 +63,6 @@ export default function ResourcesPage() {
               </p>
             </div>
           </AnimatedSection>
-        </div>
-      </section>
-
-      {/* PDF guides */}
-      <section className="py-14 md:py-16 bg-gray-50">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <AnimatedSection>
-            <div className="text-center mb-10 md:mb-12">
-              <div className="inline-flex items-center justify-center w-11 h-11 bg-gray-900 text-white rounded-full mb-4">
-                <FileText className="h-5 w-5" />
-              </div>
-              <h2 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-4">
-                {currentTranslations.resources.pdfGuides.title}
-              </h2>
-              <p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-                {currentTranslations.resources.pdfGuides.subtitle}
-              </p>
-            </div>
-          </AnimatedSection>
-
-          <div className="space-y-4">
-            {currentTranslations.resources.pdfGuides.guides.map((guide, index) => (
-              <AnimatedSection key={index} delay={index * 0.05}>
-                <div className="group bg-white rounded-xl border border-gray-200 p-5 sm:p-6 shadow-sm hover:border-gray-300 hover:shadow-md transition-all duration-300">
-                  <div className="flex items-start gap-4 sm:gap-6">
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">{guide.title}</h3>
-                      <p className="text-gray-600 text-sm sm:text-[15px] leading-relaxed">{guide.description}</p>
-                      <span className="inline-flex mt-4 items-center px-3 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">
-                        {currentTranslations.resources.pdfGuides.comingSoon}
-                      </span>
-                    </div>
-                    <div className="flex-shrink-0 w-14 h-16 sm:w-16 sm:h-20 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
-                      <span className="text-gray-500 text-xs font-semibold tracking-wide">PDF</span>
-                    </div>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
         </div>
       </section>
 

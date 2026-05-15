@@ -1,7 +1,8 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useRef, useState } from "react"
+import type { TurnstileInstance } from "@marsidev/react-turnstile"
 import { toast } from "sonner"
 import AnimatedSection from "@/components/animated-section"
 import { Mail, Clock, Send } from "lucide-react"
@@ -10,6 +11,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
+import TurnstileWidget, { isTurnstileWidgetConfigured } from "@/components/turnstile-widget"
 
 export default function ContactPage() {
   const { t } = useLanguage()
@@ -18,18 +20,25 @@ export default function ContactPage() {
     email: "",
     message: "",
   })
+  const [turnstileToken, setTurnstileToken] = useState("")
+  const turnstileRef = useRef<TurnstileInstance | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Envoi à l'API route
+    if (isTurnstileWidgetConfigured && !turnstileToken.trim()) {
+      toast.error(t("common.turnstileRequired"))
+      return
+    }
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, turnstileToken: turnstileToken || undefined }),
       })
       if (res.ok) {
         setFormData({ name: '', email: '', message: '' })
+        setTurnstileToken("")
+        turnstileRef.current?.reset()
         toast.success(t("contact.form.success"))
       } else {
         let msg = t("contact.form.error")
@@ -41,9 +50,13 @@ export default function ContactPage() {
         } catch {
           /* keep default */
         }
+        turnstileRef.current?.reset()
+        setTurnstileToken("")
         toast.error(msg)
       }
     } catch {
+      turnstileRef.current?.reset()
+      setTurnstileToken("")
       toast.error(t("contact.form.error"))
     }
   }
@@ -115,6 +128,13 @@ export default function ContactPage() {
                     placeholder={t("contact.form.messagePlaceholder")}
                   />
                 </div>
+
+                <TurnstileWidget
+                  ref={turnstileRef}
+                  action="contact"
+                  onSuccess={setTurnstileToken}
+                  onExpire={() => setTurnstileToken("")}
+                />
 
                 <Button type="submit" className="w-full">
                   <Send className="mr-2 h-4 w-4" />

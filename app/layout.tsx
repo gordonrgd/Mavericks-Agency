@@ -3,6 +3,7 @@
 import type React from "react"
 import localFont from "next/font/local"
 import "./globals.css"
+import { Analytics } from "@vercel/analytics/next"
 import { Toaster } from "sonner"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
@@ -98,6 +99,7 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
           <Toaster richColors position="top-center" />
+          <Analytics />
         </LanguageProvider>
       </body>
     </html>

@@ -5,6 +5,7 @@ import {
   getOutboundFrom,
   sendTransactionalMail,
 } from "@/lib/email/send-transactional"
+import { isTurnstileEnforced, verifyTurnstileToken } from "@/lib/turnstile"
 
 const MAX_NAME = 200
 const MAX_MESSAGE = 5000
@@ -13,6 +14,22 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
+    const turnstileToken =
+      typeof body?.turnstileToken === "string" ? body.turnstileToken : undefined
+
+    if (isTurnstileEnforced()) {
+      const ok = await verifyTurnstileToken(turnstileToken)
+      if (!ok) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "Vérification anti-robots échouée ou expirée. Réessayez.",
+          },
+          { status: 400 }
+        )
+      }
+    }
+
     const rawName = body?.name ?? ""
     const rawEmail = body?.email ?? ""
     const rawMessage = body?.message ?? ""

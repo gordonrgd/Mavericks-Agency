@@ -806,6 +806,7 @@ export const translations = {
       loading: "Chargement...",
       error: "Erreur",
       success: "Succès",
+      turnstileRequired: "Veuillez valider la vérification anti-robots avant d’envoyer.",
     },
     // FAQ Page
     faq: {
@@ -1011,7 +1012,7 @@ export const translations = {
       hero: {
         title: "Ressources",
         subtitle:
-          "Contenus pratiques pour structurer votre activité OnlyFans : cadre méthodologique, guides à venir et réponses dans la FAQ. L'objectif : clarté, exécution et croissance durable.",
+          "Contenus pratiques pour structurer votre activité OnlyFans : cadre méthodologique sur cette page, articles à lire en ligne et réponses dans la FAQ — clarté, exécution et croissance durable.",
       },
       playbook: {
         title: "Cadre de lancement — aperçu",
@@ -1029,26 +1030,6 @@ export const translations = {
         ],
         footnote:
           "Pour une analyse adaptée à votre compte et vos marchés, privilégiez un échange direct via la page contact.",
-      },
-      pdfGuides: {
-        title: "Guides PDF",
-        subtitle:
-          "Nous préparons des supports téléchargeables pour approfondir stratégie, acquisition et bonnes pratiques. Contactez-nous pour être prévenu(e) lorsqu'ils seront disponibles.",
-        comingSoon: "Bientôt disponible",
-        guides: [
-          {
-            title: "Guide croissance OnlyFans",
-            description: "Lecture des métriques, rythme de publication, optimisation progressive.",
-          },
-          {
-            title: "Créateurs et fiscalité : premiers repères",
-            description: "Questions à se poser selon les pays — à compléter avec un conseiller qualifié.",
-          },
-          {
-            title: "Marketing multi-plateformes",
-            description: "Acquisition, collaborations et conversion audience → abonnés payants.",
-          },
-        ],
       },
       blog: {
         title: "Articles",
@@ -1963,6 +1944,7 @@ export const translations = {
       loading: "Loading...",
       error: "Error",
       success: "Success",
+      turnstileRequired: "Please complete the anti-bot check before sending.",
     },
     // FAQ Page
     faq: {
@@ -2168,7 +2150,7 @@ export const translations = {
       hero: {
         title: "Resources",
         subtitle:
-          "Practical content to structure your OnlyFans business: a methodology preview, upcoming guides, and answers in the FAQ — focused on clarity, execution, and sustainable growth.",
+          "Practical content to structure your OnlyFans business: a launch framework on this page, articles you read on the site, and answers in the FAQ — clarity, execution, and sustainable growth.",
       },
       playbook: {
         title: "Launch framework — preview",
@@ -2186,26 +2168,6 @@ export const translations = {
         ],
         footnote:
           "For analysis tailored to your account and markets, reach out via the contact page.",
-      },
-      pdfGuides: {
-        title: "PDF guides",
-        subtitle:
-          "Downloadable deep-dives on strategy, acquisition, and best practices are in preparation. Contact us to be notified when they're ready.",
-        comingSoon: "Coming soon",
-        guides: [
-          {
-            title: "OnlyFans growth guide",
-            description: "Reading metrics, publishing cadence, and incremental optimization.",
-          },
-          {
-            title: "Creator taxes — first principles",
-            description: "Questions to ask by country — confirm with a qualified advisor.",
-          },
-          {
-            title: "Multi-platform marketing",
-            description: "Acquisition, collaborations, and converting audience to paying fans.",
-          },
-        ],
       },
       blog: {
         title: "Articles",
@@ -3122,6 +3084,7 @@ export const translations = {
       loading: "Cargando...",
       error: "Error",
       success: "Éxito",
+      turnstileRequired: "Completa la verificación anti-robots antes de enviar.",
     },
     // FAQ Page
     faq: {
@@ -3327,7 +3290,7 @@ export const translations = {
       hero: {
         title: "Recursos",
         subtitle:
-          "Contenido práctico para estructurar tu actividad en OnlyFans: marco metodológico, guías en preparación y respuestas en la FAQ — con foco en claridad, ejecución y crecimiento sostenible.",
+          "Contenido práctico para estructurar tu actividad en OnlyFans: marco de lanzamiento en esta página, artículos para leer en el sitio y respuestas en la FAQ — claridad, ejecución y crecimiento sostenible.",
       },
       playbook: {
         title: "Marco de lanzamiento — vista previa",
@@ -3345,26 +3308,6 @@ export const translations = {
         ],
         footnote:
           "Para un análisis adaptado a tu cuenta y mercados, escríbenos desde la página de contacto.",
-      },
-      pdfGuides: {
-        title: "Guías PDF",
-        subtitle:
-          "Preparamos material descargable para profundizar en estrategia, adquisición y buenas prácticas. Contáctanos si quieres que te avisemos.",
-        comingSoon: "Próximamente",
-        guides: [
-          {
-            title: "Guía de crecimiento OnlyFans",
-            description: "Lectura de métricas, ritmo de publicación y optimización progresiva.",
-          },
-          {
-            title: "Fiscalidad para creadores — primeros pasos",
-            description: "Preguntas clave por país — confirma con un asesor cualificado.",
-          },
-          {
-            title: "Marketing multi-plataforma",
-            description: "Adquisición, colaboraciones y conversión audiencia → fans de pago.",
-          },
-        ],
       },
       blog: {
         title: "Artículos",

@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import type { TurnstileInstance } from "@marsidev/react-turnstile"
 import {
   ArrowLeft,
   CheckCircle,
@@ -31,11 +32,14 @@ import {
 import AnimatedSection from "@/components/animated-section"
 import ProgressStepper from "@/components/progress-stepper"
 import FormNavigation from "@/components/form-navigation"
+import TurnstileWidget, { isTurnstileWidgetConfigured } from "@/components/turnstile-widget"
 
 export default function ApplyPage() {
   const { t } = useLanguage()
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const [turnstileToken, setTurnstileToken] = useState("")
+  const turnstileRef = useRef<TurnstileInstance | null>(null)
   const [formData, setFormData] = useState({
     // Step 1: Personal Information
     firstName: "",
@@ -110,17 +114,23 @@ export default function ApplyPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (isTurnstileWidgetConfigured && !turnstileToken.trim()) {
+      toast.error(t("common.turnstileRequired"))
+      return
+    }
     setIsLoading(true)
     try {
       const res = await fetch('/api/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, turnstileToken: turnstileToken || undefined }),
       })
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string }
       if (res.ok) {
         router.push('/application-received')
       } else {
+        turnstileRef.current?.reset()
+        setTurnstileToken("")
         const detail =
           typeof data.error === "string" && data.error.length > 0
             ? data.error
@@ -128,6 +138,8 @@ export default function ApplyPage() {
         toast.error(detail)
       }
     } catch {
+      turnstileRef.current?.reset()
+      setTurnstileToken("")
       toast.error(t("apply.error.message"))
     } finally {
       setIsLoading(false)
@@ -1065,6 +1077,13 @@ export default function ApplyPage() {
                         </Label>
                       </div>
                     </div>
+
+                    <TurnstileWidget
+                      ref={turnstileRef}
+                      action="apply"
+                      onSuccess={setTurnstileToken}
+                      onExpire={() => setTurnstileToken("")}
+                    />
 
                     <div className="text-center text-sm text-gray-600 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                       <p>

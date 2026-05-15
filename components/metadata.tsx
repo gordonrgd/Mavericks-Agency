@@ -2,6 +2,7 @@
 
 import Head from "next/head"
 import { useLanguage } from "@/contexts/language-context"
+import { getSiteUrl } from "@/lib/site-url"
 
 interface MetadataProps {
   title?: string
@@ -29,8 +30,9 @@ export function Metadata({
   const pageTitle = title ? `${title} | Mavericks Agency` : defaultTitle
   const pageDescription = description || defaultDescription
   const pageKeywords = keywords || defaultKeywords
-  const pageUrl = url || typeof window !== 'undefined' ? window.location.href : ''
-  const pageImage = image.startsWith('http') ? image : `${process.env.NEXT_PUBLIC_SITE_URL || 'https://mavericks-agency.com'}${image}`
+  const pageUrl =
+    url ?? (typeof window !== "undefined" ? window.location.href : getSiteUrl())
+  const pageImage = image.startsWith("http") ? image : `${getSiteUrl()}${image}`
 
   return (
     <Head>

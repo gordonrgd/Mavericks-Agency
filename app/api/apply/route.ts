@@ -5,6 +5,7 @@ import {
   getOutboundFrom,
   sendTransactionalMail,
 } from "@/lib/email/send-transactional"
+import { isTurnstileEnforced, verifyTurnstileToken } from "@/lib/turnstile"
 
 const MAX_FIELD_LENGTH = 2000
 const MAX_ENTRIES = 80
@@ -17,13 +18,30 @@ function safeString(value: unknown): string {
 
 export async function POST(req: NextRequest) {
   try {
-    const formData = await req.json()
+    const rawBody = await req.json()
 
-    if (!formData || typeof formData !== "object") {
+    if (!rawBody || typeof rawBody !== "object") {
       return NextResponse.json(
         { ok: false, error: "Données invalides." },
         { status: 400 }
       )
+    }
+
+    const record = rawBody as Record<string, unknown>
+    const { turnstileToken: tsRaw, ...formData } = record
+    const turnstileToken = typeof tsRaw === "string" ? tsRaw : undefined
+
+    if (isTurnstileEnforced()) {
+      const ok = await verifyTurnstileToken(turnstileToken)
+      if (!ok) {
+        return NextResponse.json(
+          {
+            ok: false,
+            error: "Vérification anti-robots échouée ou expirée. Réessayez.",
+          },
+          { status: 400 }
+        )
+      }
     }
 
     const entries = Object.entries(formData)
