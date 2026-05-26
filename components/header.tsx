@@ -16,17 +16,21 @@ export default function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-sm border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 md:px-6 py-2.5 md:py-4">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-3 md:py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
+          <Link
+            href="/"
+            className="relative block h-[30px] w-[12.5rem] shrink-0 md:h-[42px] md:w-[18.75rem] hover:opacity-90 transition-opacity"
+            aria-label="Mavericks Agency — accueil"
+          >
             <Image
               src={imagePaths.logo.main || "/placeholder.svg"}
-              alt="Mavericks Agency"
-              width={300}
-              height={42.22}
-              className="h-[30px] w-[200px] md:h-[42.22px] md:w-[300px] hover:opacity-90 transition-opacity"
+              alt=""
+              fill
+              className="object-contain object-left"
               priority
+              sizes="(max-width: 768px) 180px, 260px"
             />
           </Link>
 

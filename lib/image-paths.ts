@@ -1,8 +1,10 @@
 // Centralisation des chemins d'images pour faciliter la maintenance
 export const imagePaths = {
-  // Logo
+  // Logo (mavericks-logo.png — ratio ~10:1 après recadrage des marges)
   logo: {
     main: "/images/logo/mavericks-logo.png",
+    width: 1889,
+    height: 183,
     white: "/images/logo/mavericks-logo-white.png",
     dark: "/images/logo/mavericks-logo-dark.png",
     favicon: "/images/logo/favicon.ico",

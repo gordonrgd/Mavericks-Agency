@@ -33,7 +33,7 @@ export function getPlaceholder(width: number, height: number, text?: string): st
 
 // Types pour les tailles d'images courantes
 export const imageSizes = {
-  logo: { width: 200, height: 50 },
+  logo: { width: 1889, height: 183 },
   hero: { width: 1920, height: 1080 },
   project: { width: 600, height: 400 },
   testimonial: { width: 60, height: 60 },
