@@ -91,7 +91,6 @@ export default function RootLayout({
       <head>
         <title>Mavericks Agency | Influencer Marketing Agency</title>
         <meta name="description" content="Nous développons les créateurs OnlyFans grâce à une gestion stratégique, l'optimisation de contenu et la maximisation des revenus." />
-        <link rel="icon" href="/favicon.png" />
       </head>
       <body className={`${hellix.variable} font-sans`}>
         <LanguageProvider>
