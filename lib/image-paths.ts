@@ -7,7 +7,7 @@ export const imagePaths = {
     height: 183,
     white: "/images/logo/mavericks-logo-white.png",
     dark: "/images/logo/mavericks-logo-dark.png",
-    favicon: "/favicon.ico",
+    favicon: "/favicon.png",
   },
 
   // Images de la page d'accueil

@@ -65,7 +65,8 @@ export function Metadata({
       <meta name="theme-color" content="#000000" />
       <link rel="canonical" href={pageUrl} />
       
-      {/* Favicon : app/icon.png, app/apple-icon.png (Next.js) */}
+      <link rel="icon" href="/favicon.png" />
+      <link rel="apple-touch-icon" href="/favicon.png" />
     </Head>
   )
 }
