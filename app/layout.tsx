@@ -4,6 +4,7 @@ import type React from "react"
 import localFont from "next/font/local"
 import "./globals.css"
 import { Analytics } from "@vercel/analytics/next"
+import MetaPixel from "@/components/meta-pixel"
 import { Toaster } from "sonner"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
@@ -101,6 +102,7 @@ export default function RootLayout({
           <Footer />
           <Toaster richColors position="top-center" />
           <Analytics />
+          <MetaPixel />
         </LanguageProvider>
       </body>
     </html>
