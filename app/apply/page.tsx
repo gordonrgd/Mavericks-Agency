@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Button } from "@/components/ui/button"
 import AnimatedSection from "@/components/animated-section"
 import ProgressStepper from "@/components/progress-stepper"
 import FormNavigation from "@/components/form-navigation"
@@ -52,13 +53,22 @@ export default function ApplyPage() {
     location: "",
     timezone: "",
 
-    // Step 2: OnlyFans Information
+    // Step 2: OnlyFans / pre-launch
+    hasOnlyFansAccount: "" as "" | "yes" | "no",
     onlyFansUsername: "",
     currentMonthlyRevenue: "",
     accountAge: "",
     subscriberCount: "",
     averageSubscriptionPrice: "",
     contentFrequency: "",
+    preLaunchInstagram: "",
+    preLaunchTiktok: "",
+    preLaunchOtherSocial: "",
+    preLaunchFollowerCount: "",
+    preLaunchContentExperience: "",
+    preLaunchGoal: "",
+    preLaunchTimeline: "",
+    preLaunchMotivation: "",
 
     // Step 3: Content & Niche
     contentType: "",
@@ -188,6 +198,24 @@ export default function ApplyPage() {
     if (currentStep > 1) setCurrentStep(currentStep - 1)
   }
 
+  const handleOnlyFansAccountChoice = (value: "yes" | "no") => {
+    setFormData((prev) => ({ ...prev, hasOnlyFansAccount: value }))
+  }
+
+  const hasPreLaunchSocial = () =>
+    Boolean(
+      formData.preLaunchInstagram.trim() ||
+        formData.preLaunchTiktok.trim() ||
+        formData.preLaunchOtherSocial.trim()
+    )
+
+  const getPrimarySocialSummary = () => {
+    if (formData.preLaunchInstagram.trim()) return `Instagram: ${formData.preLaunchInstagram.trim()}`
+    if (formData.preLaunchTiktok.trim()) return `TikTok: ${formData.preLaunchTiktok.trim()}`
+    if (formData.preLaunchOtherSocial.trim()) return formData.preLaunchOtherSocial.trim()
+    return "—"
+  }
+
   const isStepValid = () => {
     switch (currentStep) {
       case 1:
@@ -200,9 +228,24 @@ export default function ApplyPage() {
           formData.location
         )
       case 2:
-        return (
-          formData.onlyFansUsername && formData.currentMonthlyRevenue && formData.accountAge && formData.subscriberCount
-        )
+        if (formData.hasOnlyFansAccount === "yes") {
+          return Boolean(
+            formData.onlyFansUsername &&
+              formData.currentMonthlyRevenue &&
+              formData.accountAge &&
+              formData.subscriberCount
+          )
+        }
+        if (formData.hasOnlyFansAccount === "no") {
+          return Boolean(
+            hasPreLaunchSocial() &&
+              formData.preLaunchFollowerCount &&
+              formData.preLaunchContentExperience &&
+              formData.preLaunchGoal &&
+              formData.preLaunchTimeline
+          )
+        }
+        return false
       case 3:
         return formData.contentType && formData.niche && formData.uniqueSellingPoint
       case 4:
@@ -397,16 +440,40 @@ export default function ApplyPage() {
                   </div>
                   
                   <div className="space-y-6">
+                    <div className="space-y-3">
+                      <Label className="text-sm font-medium">{t("apply.onlyfans.accountQuestion")} *</Label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <Button
+                          type="button"
+                          variant={formData.hasOnlyFansAccount === "yes" ? "default" : "outline"}
+                          className="h-12"
+                          onClick={() => handleOnlyFansAccountChoice("yes")}
+                        >
+                          {t("apply.onlyfans.accountYes")}
+                        </Button>
+                        <Button
+                          type="button"
+                          variant={formData.hasOnlyFansAccount === "no" ? "default" : "outline"}
+                          className="h-12"
+                          onClick={() => handleOnlyFansAccountChoice("no")}
+                        >
+                          {t("apply.onlyfans.accountNo")}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {formData.hasOnlyFansAccount === "yes" && (
+                      <>
                     <div className="space-y-2">
                       <Label htmlFor="onlyFansUsername" className="text-sm font-medium">
                         {t("apply.onlyfans.username")} *
                       </Label>
+                      <p className="text-xs text-muted-foreground">{t("apply.onlyfans.usernameHelp")}</p>
                       <Input
                         id="onlyFansUsername"
                         name="onlyFansUsername"
                         value={formData.onlyFansUsername}
                         onChange={handleChange}
-                        required
                         placeholder={t("apply.onlyfans.usernamePlaceholder")}
                         className="h-12"
                       />
@@ -510,6 +577,147 @@ export default function ApplyPage() {
                         </SelectContent>
                       </Select>
                     </div>
+                      </>
+                    )}
+
+                    {formData.hasOnlyFansAccount === "no" && (
+                      <>
+                        <p className="text-sm text-muted-foreground">{t("apply.onlyfans.notOnOnlyfansIntro")}</p>
+                        <p className="text-xs text-muted-foreground">{t("apply.onlyfans.primarySocialHint")}</p>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <Label htmlFor="preLaunchInstagram" className="text-sm font-medium">
+                              {t("apply.onlyfans.instagramHandle")}
+                            </Label>
+                            <Input
+                              id="preLaunchInstagram"
+                              name="preLaunchInstagram"
+                              value={formData.preLaunchInstagram}
+                              onChange={handleChange}
+                              placeholder={t("apply.onlyfans.instagramPlaceholder")}
+                              className="h-12"
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="preLaunchTiktok" className="text-sm font-medium">
+                              {t("apply.onlyfans.tiktokHandle")}
+                            </Label>
+                            <Input
+                              id="preLaunchTiktok"
+                              name="preLaunchTiktok"
+                              value={formData.preLaunchTiktok}
+                              onChange={handleChange}
+                              placeholder={t("apply.onlyfans.tiktokPlaceholder")}
+                              className="h-12"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="preLaunchOtherSocial" className="text-sm font-medium">
+                            {t("apply.onlyfans.otherSocial")}
+                          </Label>
+                          <Input
+                            id="preLaunchOtherSocial"
+                            name="preLaunchOtherSocial"
+                            value={formData.preLaunchOtherSocial}
+                            onChange={handleChange}
+                            placeholder={t("apply.onlyfans.otherSocialPlaceholder")}
+                            className="h-12"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-2">
+                            <Label className="text-sm font-medium">{t("apply.onlyfans.followerCount")} *</Label>
+                            <Select
+                              value={formData.preLaunchFollowerCount}
+                              onValueChange={(value) => handleSelectChange("preLaunchFollowerCount", value)}
+                            >
+                              <SelectTrigger className="h-12">
+                                <SelectValue placeholder={t("apply.onlyfans.accountAgeOptions.select")} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="0-50">{t("apply.onlyfans.subscriberRanges.range1")}</SelectItem>
+                                <SelectItem value="50-200">{t("apply.onlyfans.subscriberRanges.range2")}</SelectItem>
+                                <SelectItem value="200-500">{t("apply.onlyfans.subscriberRanges.range3")}</SelectItem>
+                                <SelectItem value="500-1000">{t("apply.onlyfans.subscriberRanges.range4")}</SelectItem>
+                                <SelectItem value="1000-2500">{t("apply.onlyfans.subscriberRanges.range5")}</SelectItem>
+                                <SelectItem value="2500-5000">{t("apply.onlyfans.subscriberRanges.range6")}</SelectItem>
+                                <SelectItem value="5000+">{t("apply.onlyfans.subscriberRanges.range7")}</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label className="text-sm font-medium">{t("apply.onlyfans.contentExperience")} *</Label>
+                            <Select
+                              value={formData.preLaunchContentExperience}
+                              onValueChange={(value) => handleSelectChange("preLaunchContentExperience", value)}
+                            >
+                              <SelectTrigger className="h-12">
+                                <SelectValue placeholder={t("apply.onlyfans.experienceOptions.select")} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="beginner">{t("apply.onlyfans.experienceOptions.beginner")}</SelectItem>
+                                <SelectItem value="some-content">{t("apply.onlyfans.experienceOptions.someContent")}</SelectItem>
+                                <SelectItem value="pro-other">{t("apply.onlyfans.experienceOptions.proOther")}</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label className="text-sm font-medium">{t("apply.onlyfans.launchGoal")} *</Label>
+                            <Select
+                              value={formData.preLaunchGoal}
+                              onValueChange={(value) => handleSelectChange("preLaunchGoal", value)}
+                            >
+                              <SelectTrigger className="h-12">
+                                <SelectValue placeholder={t("apply.onlyfans.goalOptions.select")} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="launch-account">{t("apply.onlyfans.goalOptions.launchAccount")}</SelectItem>
+                                <SelectItem value="grow-revenue">{t("apply.onlyfans.goalOptions.growRevenue")}</SelectItem>
+                                <SelectItem value="full-support">{t("apply.onlyfans.goalOptions.fullSupport")}</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+
+                          <div className="space-y-2">
+                            <Label className="text-sm font-medium">{t("apply.onlyfans.launchTimeline")} *</Label>
+                            <Select
+                              value={formData.preLaunchTimeline}
+                              onValueChange={(value) => handleSelectChange("preLaunchTimeline", value)}
+                            >
+                              <SelectTrigger className="h-12">
+                                <SelectValue placeholder={t("apply.onlyfans.timelineOptions.select")} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="this-week">{t("apply.onlyfans.timelineOptions.thisWeek")}</SelectItem>
+                                <SelectItem value="this-month">{t("apply.onlyfans.timelineOptions.thisMonth")}</SelectItem>
+                                <SelectItem value="1-3-months">{t("apply.onlyfans.timelineOptions.oneToThreeMonths")}</SelectItem>
+                                <SelectItem value="unsure">{t("apply.onlyfans.timelineOptions.unsure")}</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label htmlFor="preLaunchMotivation" className="text-sm font-medium">
+                            {t("apply.onlyfans.launchMotivation")}
+                          </Label>
+                          <Textarea
+                            id="preLaunchMotivation"
+                            name="preLaunchMotivation"
+                            value={formData.preLaunchMotivation}
+                            onChange={handleChange}
+                            rows={3}
+                            placeholder={t("apply.onlyfans.launchMotivationPlaceholder")}
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                 </AnimatedSection>
               )}
@@ -979,12 +1187,28 @@ export default function ApplyPage() {
                           <p>
                             <strong>{t("apply.final.name")} :</strong> {formData.firstName} {formData.lastName}
                           </p>
-                          <p>
-                            <strong>{t("apply.final.onlyfans")} :</strong> @{formData.onlyFansUsername}
-                          </p>
-                          <p>
-                            <strong>{t("apply.final.currentRevenue")} :</strong> {formData.currentMonthlyRevenue}
-                          </p>
+                          {formData.hasOnlyFansAccount === "yes" ? (
+                            <>
+                              <p>
+                                <strong>{t("apply.final.onlyfans")} :</strong> @{formData.onlyFansUsername}
+                              </p>
+                              <p>
+                                <strong>{t("apply.final.currentRevenue")} :</strong> {formData.currentMonthlyRevenue}
+                              </p>
+                            </>
+                          ) : (
+                            <>
+                              <p>
+                                <strong>{t("apply.final.notOnOnlyfansYet")} :</strong> {t("apply.final.notOnOnlyfansValue")}
+                              </p>
+                              <p>
+                                <strong>{t("apply.final.primarySocial")} :</strong> {getPrimarySocialSummary()}
+                              </p>
+                              <p>
+                                <strong>{t("apply.final.launchTimelineLabel")} :</strong> {formData.preLaunchTimeline}
+                              </p>
+                            </>
+                          )}
                         </div>
                         <div className="text-left">
                           <p>
