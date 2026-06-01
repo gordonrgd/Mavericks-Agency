@@ -6,6 +6,11 @@ import {
   sendTransactionalMail,
 } from "@/lib/email/send-transactional"
 import { isTurnstileEnforced, verifyTurnstileToken } from "@/lib/turnstile"
+import {
+  parseMarketingCookiesAccepted,
+  parseMetaEventId,
+  trackMetaLeadServer,
+} from "@/lib/meta-lead-server"
 
 const MAX_FIELD_LENGTH = 2000
 const MAX_ENTRIES = 80
@@ -28,7 +33,12 @@ export async function POST(req: NextRequest) {
     }
 
     const record = rawBody as Record<string, unknown>
-    const { turnstileToken: tsRaw, ...formData } = record
+    const {
+      turnstileToken: tsRaw,
+      metaEventId: metaEventIdRaw,
+      marketingCookiesAccepted: marketingCookiesRaw,
+      ...formData
+    } = record
     const turnstileToken = typeof tsRaw === "string" ? tsRaw : undefined
 
     if (isTurnstileEnforced()) {
@@ -101,6 +111,32 @@ export async function POST(req: NextRequest) {
           ? String(formData.email).trim()
           : undefined,
     })
+
+    const metaEventId = parseMetaEventId({ metaEventId: metaEventIdRaw })
+    if (metaEventId) {
+      await trackMetaLeadServer({
+        req,
+        eventId: metaEventId,
+        contentName: "apply",
+        marketingCookiesAccepted: marketingCookiesRaw === true,
+        email:
+          typeof formData.email === "string"
+            ? String(formData.email).trim()
+            : undefined,
+        phone:
+          typeof formData.phone === "string"
+            ? String(formData.phone).trim()
+            : undefined,
+        firstName:
+          typeof formData.firstName === "string"
+            ? String(formData.firstName).trim()
+            : undefined,
+        lastName:
+          typeof formData.lastName === "string"
+            ? String(formData.lastName).trim()
+            : undefined,
+      })
+    }
 
     return NextResponse.json({ ok: true })
   } catch (error) {

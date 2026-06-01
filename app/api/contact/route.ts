@@ -6,6 +6,12 @@ import {
   sendTransactionalMail,
 } from "@/lib/email/send-transactional"
 import { isTurnstileEnforced, verifyTurnstileToken } from "@/lib/turnstile"
+import {
+  parseMarketingCookiesAccepted,
+  parseMetaEventId,
+  splitFullName,
+  trackMetaLeadServer,
+} from "@/lib/meta-lead-server"
 
 const MAX_NAME = 200
 const MAX_MESSAGE = 5000
@@ -82,6 +88,20 @@ export async function POST(req: NextRequest) {
       html: `<p><b>Nom:</b> ${safeName}</p><p><b>Email:</b> ${safeEmail}</p><p><b>Message:</b><br/>${safeMessage}</p>`,
       replyTo: email,
     })
+
+    const metaEventId = parseMetaEventId(body)
+    if (metaEventId) {
+      const { firstName, lastName } = splitFullName(name)
+      await trackMetaLeadServer({
+        req,
+        eventId: metaEventId,
+        contentName: "contact",
+        marketingCookiesAccepted: parseMarketingCookiesAccepted(body),
+        email,
+        firstName,
+        lastName,
+      })
+    }
 
     return NextResponse.json({ ok: true })
   } catch (error) {

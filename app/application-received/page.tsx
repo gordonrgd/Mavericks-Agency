@@ -1,12 +1,18 @@
 "use client"
 
+import { useEffect } from "react"
 import Link from "next/link"
 import { CheckCircle, ArrowRight } from "lucide-react"
 import AnimatedSection from "@/components/animated-section"
 import { useLanguage } from "@/contexts/language-context"
+import { flushPendingMetaLead } from "@/lib/meta-lead-client"
 
 export default function ApplicationReceivedPage() {
   const { t } = useLanguage()
+
+  useEffect(() => {
+    flushPendingMetaLead()
+  }, [])
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white pt-16 md:pt-20 pb-16 md:pb-20">

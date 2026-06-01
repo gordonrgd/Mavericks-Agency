@@ -3,26 +3,38 @@
 import { useEffect, useRef } from "react"
 import { usePathname } from "next/navigation"
 import Script from "next/script"
-import { isMetaPixelEnabled, META_PIXEL_ID } from "@/lib/meta-pixel"
+import { useCookieConsent } from "@/contexts/cookie-consent-context"
+import { flushPendingMetaLead } from "@/lib/meta-lead-client"
+import { isMetaPixelEnabled, META_PIXEL_ID, trackMetaEvent } from "@/lib/meta-pixel"
 
 export default function MetaPixel() {
   const pathname = usePathname()
+  const { hydrated, marketingConsent } = useCookieConsent()
   const skipNextPageView = useRef(true)
 
   useEffect(() => {
-    if (!isMetaPixelEnabled()) return
+    if (!hydrated || !marketingConsent || !isMetaPixelEnabled()) return
     if (skipNextPageView.current) {
       skipNextPageView.current = false
       return
     }
-    window.fbq?.("track", "PageView")
-  }, [pathname])
+    trackMetaEvent("PageView")
+  }, [pathname, hydrated, marketingConsent])
 
-  if (!isMetaPixelEnabled()) return null
+  useEffect(() => {
+    if (!hydrated || !marketingConsent || !isMetaPixelEnabled()) return
+    flushPendingMetaLead()
+  }, [hydrated, marketingConsent, pathname])
+
+  if (!isMetaPixelEnabled() || !hydrated || !marketingConsent) return null
 
   return (
     <>
-      <Script id="meta-pixel" strategy="afterInteractive">
+      <Script
+        id="meta-pixel"
+        strategy="afterInteractive"
+        onLoad={() => flushPendingMetaLead()}
+      >
         {`
           !function(f,b,e,v,n,t,s)
           {if(f.fbq)return;n=f.fbq=function(){n.callMethod?

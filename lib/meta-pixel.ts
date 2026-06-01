@@ -10,14 +10,22 @@ declare global {
   }
 }
 
-/** Envoie un événement Meta (ex. Lead après envoi de formulaire). */
+export type MetaTrackOptions = {
+  eventID?: string
+}
+
+/** Envoie un événement Meta (ex. PageView, Lead). */
 export function trackMetaEvent(
   eventName: string,
-  params?: Record<string, unknown>
+  params?: Record<string, unknown>,
+  options?: MetaTrackOptions
 ): void {
   if (typeof window === "undefined" || !isMetaPixelEnabled()) return
   if (typeof window.fbq !== "function") return
-  if (params) {
+
+  if (options?.eventID) {
+    window.fbq("track", eventName, params ?? {}, { eventID: options.eventID })
+  } else if (params) {
     window.fbq("track", eventName, params)
   } else {
     window.fbq("track", eventName)

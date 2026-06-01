@@ -33,6 +33,8 @@ import AnimatedSection from "@/components/animated-section"
 import ProgressStepper from "@/components/progress-stepper"
 import FormNavigation from "@/components/form-navigation"
 import TurnstileWidget, { isTurnstileWidgetConfigured } from "@/components/turnstile-widget"
+import { hasMarketingConsent } from "@/lib/cookie-consent"
+import { createMetaEventId, trackMetaLead } from "@/lib/meta-lead-client"
 
 export default function ApplyPage() {
   const { t } = useLanguage()
@@ -120,13 +122,23 @@ export default function ApplyPage() {
     }
     setIsLoading(true)
     try {
+      const metaEventId = createMetaEventId()
+      const marketingCookiesAccepted = hasMarketingConsent()
       const res = await fetch('/api/apply', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, turnstileToken: turnstileToken || undefined }),
+        body: JSON.stringify({
+          ...formData,
+          turnstileToken: turnstileToken || undefined,
+          metaEventId,
+          marketingCookiesAccepted,
+        }),
       })
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string }
       if (res.ok) {
+        if (marketingCookiesAccepted) {
+          trackMetaLead({ contentName: "apply", eventId: metaEventId })
+        }
         router.push('/application-received')
       } else {
         turnstileRef.current?.reset()

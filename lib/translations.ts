@@ -808,6 +808,14 @@ export const translations = {
       success: "Succès",
       turnstileRequired: "Veuillez valider la vérification anti-robots avant d’envoyer.",
     },
+    cookieConsent: {
+      title: "Cookies et mesure d’audience",
+      description:
+        "Nous utilisons des cookies pour mesurer l’audience et optimiser nos campagnes (dont Meta). Les cookies essentiels au fonctionnement du site ne nécessitent pas votre accord. En savoir plus :",
+      privacyLink: "politique de confidentialité",
+      accept: "Tout accepter",
+      reject: "Continuer sans accepter",
+    },
     // FAQ Page
     faq: {
       title: "Foire aux questions",
@@ -952,7 +960,8 @@ export const translations = {
         },
         cookies: {
           title: "7. Cookies",
-          content: "Utilisation limitée, possibilité de refus via navigateur."
+          content:
+            "Un bandeau vous permet d’accepter ou de refuser les cookies de mesure (dont le pixel Meta). Sans acceptation, ces traceurs ne sont pas activés. Vous pouvez aussi gérer les cookies via les paramètres de votre navigateur.",
         },
         modifications: {
           title: "8. Modifications",
@@ -1946,6 +1955,14 @@ export const translations = {
       success: "Success",
       turnstileRequired: "Please complete the anti-bot check before sending.",
     },
+    cookieConsent: {
+      title: "Cookies & audience measurement",
+      description:
+        "We use cookies to measure traffic and improve our campaigns (including Meta). Essential site cookies do not require your consent. Learn more in our",
+      privacyLink: "privacy policy",
+      accept: "Accept all",
+      reject: "Continue without accepting",
+    },
     // FAQ Page
     faq: {
       title: "FAQ",
@@ -2090,7 +2107,8 @@ export const translations = {
         },
         cookies: {
           title: "7. Cookies",
-          content: "Limited use, possibility of refusal via browser."
+          content:
+            "A banner lets you accept or decline measurement cookies (including the Meta pixel). Without consent, these trackers are not activated. You can also manage cookies in your browser settings.",
         },
         modifications: {
           title: "8. Modifications",
@@ -3086,6 +3104,14 @@ export const translations = {
       success: "Éxito",
       turnstileRequired: "Completa la verificación anti-robots antes de enviar.",
     },
+    cookieConsent: {
+      title: "Cookies y medición de audiencia",
+      description:
+        "Usamos cookies para medir el tráfico y optimizar nuestras campañas (incluido Meta). Las cookies esenciales del sitio no requieren tu consentimiento. Más información en nuestra",
+      privacyLink: "política de privacidad",
+      accept: "Aceptar todo",
+      reject: "Continuar sin aceptar",
+    },
     // FAQ Page
     faq: {
       title: "Preguntas frecuentes",
@@ -3230,7 +3256,8 @@ export const translations = {
         },
         cookies: {
           title: "7. Cookies",
-          content: "Uso limitado, posibilidad de rechazo vía navegador."
+          content:
+            "Un banner permite aceptar o rechazar cookies de medición (incluido el pixel Meta). Sin consentimiento, estos rastreadores no se activan. También puedes gestionar las cookies en tu navegador.",
         },
         modifications: {
           title: "8. Modificaciones",

@@ -9,6 +9,7 @@ import { Toaster } from "sonner"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
 import { LanguageProvider } from "@/contexts/language-context"
+import { CookieConsentProvider } from "@/contexts/cookie-consent-context"
 
 const hellix = localFont({
   src: [
@@ -97,12 +98,14 @@ export default function RootLayout({
       </head>
       <body className={`${hellix.variable} font-sans`}>
         <LanguageProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-          <Toaster richColors position="top-center" />
-          <Analytics />
-          <MetaPixel />
+          <CookieConsentProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+            <Toaster richColors position="top-center" />
+            <Analytics />
+            <MetaPixel />
+          </CookieConsentProvider>
         </LanguageProvider>
       </body>
     </html>

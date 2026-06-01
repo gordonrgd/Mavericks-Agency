@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import TurnstileWidget, { isTurnstileWidgetConfigured } from "@/components/turnstile-widget"
+import { hasMarketingConsent } from "@/lib/cookie-consent"
+import { createMetaEventId, trackMetaLead } from "@/lib/meta-lead-client"
 
 export default function ContactPage() {
   const { t } = useLanguage()
@@ -30,12 +32,22 @@ export default function ContactPage() {
       return
     }
     try {
+      const metaEventId = createMetaEventId()
+      const marketingCookiesAccepted = hasMarketingConsent()
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, turnstileToken: turnstileToken || undefined }),
+        body: JSON.stringify({
+          ...formData,
+          turnstileToken: turnstileToken || undefined,
+          metaEventId,
+          marketingCookiesAccepted,
+        }),
       })
       if (res.ok) {
+        if (marketingCookiesAccepted) {
+          trackMetaLead({ contentName: "contact", eventId: metaEventId })
+        }
         setFormData({ name: '', email: '', message: '' })
         setTurnstileToken("")
         turnstileRef.current?.reset()
